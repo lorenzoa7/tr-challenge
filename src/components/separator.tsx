@@ -9,7 +9,7 @@ export function Separator({ orientation, className, ...props }: Props) {
   return (
     <div
       className={cn(
-        'bg-slate-200',
+        'bg-slate-500',
         orientation === 'horizontal' ? 'h-[1px] w-full' : 'h-full w-[1px]',
         className,
       )}
