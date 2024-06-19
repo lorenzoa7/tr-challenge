@@ -1,3 +1,4 @@
+import QueryProvider from '@/components/query-provider'
 import { inter } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
@@ -14,14 +15,15 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={cn(
           'font-inter antialiased bg-slate-100 text-slate-900',
           inter.variable,
         )}
       >
-        {children}
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   )

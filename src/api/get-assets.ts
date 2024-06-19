@@ -7,9 +7,9 @@ export type GetAssetsRequest = {
 export type GetAssetsResponse = {
   id: string
   name: string
-  sensorId: string
   status?: 'operating' | 'alert' | null
   sensorType?: string | null
+  sensorId?: string | null
   parentId?: string | null
   gatewayId?: string | null
   locationId?: string | null

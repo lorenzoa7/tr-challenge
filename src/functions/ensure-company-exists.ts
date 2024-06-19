@@ -1,11 +1,15 @@
 import { getCompanies } from '@/api/get-companies'
 import { notFound } from 'next/navigation'
 
-export async function ensureCompanyExists(company: string) {
+export async function ensureCompanyExistsAndGetCompany(company: string) {
   const companies = await getCompanies()
-  const companiesNames = companies.map((company) => company.name.toLowerCase())
+  const companyObject = companies.find(
+    (companyItem) => companyItem.name.toLowerCase() === company,
+  )
 
-  if (!companiesNames.includes(company)) {
+  if (!companyObject) {
     notFound()
   }
+
+  return companyObject
 }

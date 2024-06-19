@@ -1,6 +1,7 @@
 'use client'
 
 import { capitalizeFirstLetter } from '@/functions/capitalize-first-letter'
+import { useComponentStore } from '@/store/use-component-store'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDownIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
@@ -29,17 +30,23 @@ export function CompaniesSelect({ companies }: Props) {
   const handleSelect = (company: Company) => {
     router.push(`/${company.name.toLowerCase()}`)
     setIsOpen(false)
+
+    useComponentStore.setState((state) => ({
+      ...state,
+      selectedComponent: undefined,
+    }))
   }
 
   return (
     <div className="relative">
       <button
-        className="flex h-10 w-44 items-center justify-between rounded-md border border-gray-800 bg-slate-900 px-3 py-2 text-xs font-semibold transition-colors hover:bg-gray-800"
+        className="flex h-10 w-44 items-center justify-between rounded-md border-2 border-gray-800 bg-slate-900 px-3 py-2 text-xs font-semibold transition-colors hover:bg-gray-800"
         onClick={() => setIsOpen(!isOpen)}
       >
         {selectedCompany || 'Select a company...'}
         <ChevronDownIcon className="size-4 opacity-50" />
       </button>
+
       <AnimatePresence>
         {isOpen && (
           <motion.ul
