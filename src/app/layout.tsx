@@ -1,4 +1,4 @@
-import { roboto } from '@/lib/fonts'
+import { inter } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
 import './globals.css'
@@ -15,7 +15,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn('font-roboto antialiased', roboto.variable)}>
+      <body
+        className={cn(
+          'font-inter antialiased bg-slate-100 text-slate-900',
+          inter.variable,
+        )}
+      >
         {children}
       </body>
     </html>

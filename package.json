@@ -9,12 +9,15 @@
     "lint": "next lint --fix"
   },
   "dependencies": {
+    "axios": "^1.7.2",
     "clsx": "^2.1.1",
+    "framer-motion": "^11.2.11",
     "lucide-react": "^0.395.0",
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",
-    "tailwind-merge": "^2.3.0"
+    "tailwind-merge": "^2.3.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20",

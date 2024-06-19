@@ -1,34 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@layer base {
-  :root {
-    --background: 205 27% 91%;
-    --foreground: 235 32% 13%;
-
-    --primary: 213 13% 16%;
-    --primary-foreground: 211 8% 51%;
-
-    --secondary: 212 100% 56%;
-    --secondary-foreground: 211 97% 24%;
-
-    --muted: 210 9% 57%;
-    --muted-foreground: 213 13% 16%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    
-    --border: 210 22% 87%;
-    --placeholder: 212 16% 79%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
