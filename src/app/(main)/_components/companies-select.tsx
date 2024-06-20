@@ -19,7 +19,7 @@ type Props = {
 
 export function CompaniesSelect({ companies }: Props) {
   const [isOpen, setIsOpen] = useState(false)
-  const selectRef = useClickOutside(() => {
+  const ref = useClickOutside(() => {
     setIsOpen(false)
   })
   const companiesNames = companies.map((company) => company.name.toLowerCase())
@@ -42,10 +42,10 @@ export function CompaniesSelect({ companies }: Props) {
   }
 
   return (
-    <div className="relative">
+    <div ref={ref} className="relative">
       <button
         className="flex h-10 w-44 items-center justify-between rounded-md border-2 border-gray-800 bg-slate-900 px-3 py-2 text-xs font-semibold transition-colors hover:bg-gray-800"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen((state) => !state)}
       >
         {selectedCompany || 'Select a company...'}
         <ChevronDownIcon className="size-4 opacity-50" />
@@ -54,7 +54,6 @@ export function CompaniesSelect({ companies }: Props) {
       <AnimatePresence>
         {isOpen && (
           <motion.ul
-            ref={selectRef}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
