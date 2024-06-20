@@ -1,4 +1,5 @@
 import { objectEntries } from '@/functions/object-entries'
+import { useClickOutside } from '@/hooks/use-click-outside'
 import {
   FilterSchema,
   filterSchema,
@@ -16,6 +17,9 @@ type Props = {
 
 export function FilterForm({ onSubmit }: Props) {
   const [isOpen, setIsOpen] = useState(false)
+  const selectRef = useClickOutside(() => {
+    setIsOpen(false)
+  })
 
   const { register, handleSubmit, setValue, watch } = useForm<FilterSchema>({
     resolver: zodResolver(filterSchema),
@@ -53,6 +57,7 @@ export function FilterForm({ onSubmit }: Props) {
         <AnimatePresence>
           {isOpen && (
             <motion.ul
+              ref={selectRef}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}

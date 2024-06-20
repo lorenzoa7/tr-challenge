@@ -1,6 +1,7 @@
 'use client'
 
 import { capitalizeFirstLetter } from '@/functions/capitalize-first-letter'
+import { useClickOutside } from '@/hooks/use-click-outside'
 import { useComponentStore } from '@/store/use-component-store'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDownIcon } from 'lucide-react'
@@ -18,6 +19,9 @@ type Props = {
 
 export function CompaniesSelect({ companies }: Props) {
   const [isOpen, setIsOpen] = useState(false)
+  const selectRef = useClickOutside(() => {
+    setIsOpen(false)
+  })
   const companiesNames = companies.map((company) => company.name.toLowerCase())
 
   const router = useRouter()
@@ -50,6 +54,7 @@ export function CompaniesSelect({ companies }: Props) {
       <AnimatePresence>
         {isOpen && (
           <motion.ul
+            ref={selectRef}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
