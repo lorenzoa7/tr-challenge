@@ -20,7 +20,7 @@ export function TreeView({ company }: Props) {
   const [filteredTreeData, setFilteredTreeData] =
     useState<ReturnType<typeof buildTree>>()
 
-  const { data, isPending, status, count } = useQueries({
+  const { data, isPending, status } = useQueries({
     queries: [
       {
         queryKey: ['locations', company.id],
@@ -49,7 +49,6 @@ export function TreeView({ company }: Props) {
             filter: { scope: 'none', searchTerm: '' },
           }),
           isPending: results.some((result) => result.isPending),
-          count: data.locations.length + data.assets.length,
           status: 'success',
         }
       }
@@ -57,7 +56,6 @@ export function TreeView({ company }: Props) {
       return {
         data: undefined,
         isPending: results.some((result) => result.isPending),
-        count: 0,
         status: 'error',
       }
     },
@@ -78,14 +76,11 @@ export function TreeView({ company }: Props) {
 
   return (
     <aside className="min-w-64 resize-x space-y-2 overflow-auto border-2 border-slate-200 p-2">
-      <header className="flex flex-col gap-1">
+      <header>
         <FilterForm onSubmit={handleFilter} />
-        {status === 'success' && treeData && (
-          <span className="pl-1 text-sm text-slate-500">{`${count} resultados`}</span>
-        )}
       </header>
 
-      <div className="max-h-[calc(100vh-275px)] w-[33rem] overflow-x-auto">
+      <div className="max-h-[calc(100vh-250px)] w-[33rem] overflow-x-auto">
         {isPending ? (
           <TreeSkeleton />
         ) : status === 'error' ? (
