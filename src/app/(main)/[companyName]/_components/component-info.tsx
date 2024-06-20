@@ -20,7 +20,15 @@ export function ComponentInfo() {
 
       {selectedComponent && (
         <div className="flex h-full flex-col gap-7">
-          <h1 className="text-lg font-semibold">{selectedComponent.name}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-lg font-semibold">{selectedComponent.name}</h1>
+            <span
+              data-alert={selectedComponent.status === 'alert'}
+              className="data-[alert=false]:text-green-500 data-[alert=true]:text-red-500"
+            >
+              {selectedComponent.sensorType === 'energy' ? '⚡' : '●'}
+            </span>
+          </div>
           <div className="flex flex-col">
             <div className="flex gap-7">
               <button className="flex h-56 w-80 flex-col items-center justify-center rounded border border-dashed border-blue-500 bg-blue-100 text-blue-500">
