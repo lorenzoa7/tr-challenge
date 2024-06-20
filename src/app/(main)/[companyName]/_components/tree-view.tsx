@@ -80,18 +80,20 @@ export function TreeView({ company }: Props) {
         <FilterForm onSubmit={handleFilter} />
       </header>
 
-      <div className="max-h-[calc(100vh-200px)] w-[33rem] overflow-x-auto">
+      <div className="max-h-[calc(100vh-250px)] w-[33rem] overflow-x-auto">
         {isPending ? (
           <TreeSkeleton />
         ) : status === 'error' ? (
-          <p className="text-center text-sm text-red-500">
+          <p className="mt-2 text-center text-sm text-red-500">
             Aconteceu um erro ao carregar as informações. Tente recarregar a
             página!
           </p>
         ) : status === 'success' && treeData && treeData.length > 0 ? (
           treeData.map((node) => <TreeNode key={node.id} node={node} />)
         ) : (
-          <p className="text-center text-sm">Nenhum resultado encontrado.</p>
+          <p className="mt-2 text-center text-sm">
+            Nenhum resultado encontrado.
+          </p>
         )}
       </div>
     </aside>
