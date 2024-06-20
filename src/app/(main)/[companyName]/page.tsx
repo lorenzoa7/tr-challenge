@@ -14,7 +14,7 @@ export default async function CompanyPage({ params: { companyName } }: Props) {
   const company = await ensureCompanyExistsAndGetCompany(companyName)
 
   return (
-    <main className="flex w-full flex-1 flex-col gap-5">
+    <main className="flex w-full flex-1 flex-col gap-5 rounded-lg border border-slate-200 bg-slate-50 p-4">
       <div className="flex items-center gap-2">
         <h1 className="text-xl font-semibold">Ativos</h1>
         <Separator orientation="vertical" className="h-4 rotate-12" />
