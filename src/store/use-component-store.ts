@@ -1,8 +1,8 @@
-import { Node } from '@/functions/build-tree'
+import { AssetNode, Node } from '@/functions/build-tree'
 import { create } from 'zustand'
 
 type ComponentState = {
-  selectedComponent?: Node
+  selectedComponent?: AssetNode & { children: Node[]; type: 'component' }
 }
 
 export const useComponentStore = create<ComponentState>(() => ({

@@ -32,7 +32,7 @@ export function TreeNode({ node }: Props) {
     if (node.type === 'component') {
       useComponentStore.setState((state) => ({
         ...state,
-        selectedComponent: node,
+        selectedComponent: { ...node, type: 'component' },
       }))
     }
   }
