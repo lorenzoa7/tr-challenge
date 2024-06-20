@@ -81,7 +81,7 @@ export function TreeView({ company }: Props) {
       <header className="flex flex-col gap-1">
         <FilterForm onSubmit={handleFilter} />
         {status === 'success' && treeData && (
-          <span className="pl-1 text-sm">{`${count} resultados`}</span>
+          <span className="pl-1 text-sm text-slate-500">{`${count} resultados`}</span>
         )}
       </header>
 
