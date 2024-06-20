@@ -19,7 +19,7 @@ type Props = {
 }
 
 export function buildTree({ locations, assets }: Props) {
-  const findChildren = (parentId: string | null): Node[] => {
+  function findChildren(parentId: string | null): Node[] {
     const locationChildren = locations
       .filter((location) => location.parentId === parentId)
       .map((location) => ({

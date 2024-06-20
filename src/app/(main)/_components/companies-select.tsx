@@ -53,7 +53,7 @@ export function CompaniesSelect({ companies }: Props) {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute mt-2 max-h-60 w-full overflow-y-auto rounded border border-gray-800 bg-slate-900 shadow-lg"
+            className="absolute z-10 mt-2 max-h-60 w-full overflow-y-auto rounded border border-gray-800 bg-slate-900 shadow-lg"
           >
             {companies.map((company) => (
               <li
