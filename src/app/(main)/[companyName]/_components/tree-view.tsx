@@ -41,11 +41,14 @@ export function TreeView({ company }: Props) {
       : undefined
 
   return (
-    <aside className="max-h-[calc(100vh-180px)] w-[33rem] overflow-y-auto border-2 border-slate-200 p-2">
-      {isPending && <TreeSkeleton />}
-      {!isPending &&
-        treeData &&
-        treeData.map((node) => <TreeNode key={node.id} node={node} />)}
+    <aside className="min-w-64 resize-x overflow-auto border-2 border-slate-200 p-2">
+      <div className="max-h-[calc(100vh-200px)] w-[33rem] overflow-x-auto">
+        {isPending && <TreeSkeleton />}
+
+        {!isPending &&
+          treeData &&
+          treeData.map((node) => <TreeNode key={node.id} node={node} />)}
+      </div>
     </aside>
   )
 }

@@ -1,3 +1,5 @@
+'use client'
+
 import { Skeleton } from '@/components/skeleton'
 
 export function TreeSkeleton() {
