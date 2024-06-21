@@ -19,11 +19,7 @@ export function TreeView({ company }: Props) {
     scope: 'none',
   })
 
-  const {
-    data: treeData,
-    isPending,
-    isError,
-  } = useQuery({
+  const { data, isPending, isError } = useQuery({
     queryKey: ['tree', company.id, filter.searchTerm, filter.scope],
     queryFn: () => getTree({ companyId: company.id, filter }),
     staleTime: Infinity, // we can change this if the data changes often
@@ -40,8 +36,8 @@ export function TreeView({ company }: Props) {
 
         {!isPending &&
           !isError &&
-          (treeData.length > 0 ? (
-            treeData.map((node) => <TreeNode key={node.id} node={node} />)
+          (data.length > 0 ? (
+            data.map((node) => <TreeNode key={node.id} node={node} />)
           ) : (
             <p className="mt-2 text-center text-sm">
               Nenhum resultado encontrado.

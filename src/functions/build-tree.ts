@@ -25,7 +25,7 @@ type Props = {
 export function buildTree({ locations, assets, filter }: Props) {
   const { searchTerm, scope } = filter
 
-  function isMatch(node: Node) {
+  const isMatch = (node: Node): boolean => {
     const matchesSearchTerm =
       searchTerm === '' ||
       node.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -44,71 +44,72 @@ export function buildTree({ locations, assets, filter }: Props) {
     return matchesSearchTerm && matchesScope
   }
 
-  function buildTree(
-    locations: Props['locations'],
-    assets: Props['assets'],
-  ): Node[] {
-    function findChildren(parentId: string | null): Node[] {
-      const locationChildren = locations
-        .filter((location) => location.parentId === parentId)
-        .map((location) => ({
-          ...location,
-          type: 'location' as const,
-          children: findChildren(location.id),
-        }))
+  const buildTreeWithFilter = () => {
+    const nodeMap = new Map<string, Node>()
 
-      const assetChildren = assets
-        .filter(
-          (asset) =>
-            asset.parentId === parentId || asset.locationId === parentId,
-        )
-        .map((asset) => ({
-          ...asset,
-          type: asset.sensorType ? ('component' as const) : ('asset' as const),
-          children: findChildren(asset.id),
-        }))
+    locations.forEach((location) => {
+      nodeMap.set(location.id, { ...location, type: 'location', children: [] })
+    })
 
-      return [...locationChildren, ...assetChildren]
+    assets.forEach((asset) => {
+      const type = asset.sensorType ? 'component' : 'asset'
+      nodeMap.set(asset.id, { ...asset, type, children: [] })
+    })
+
+    locations.forEach((location) => {
+      if (location.parentId) {
+        const parent = nodeMap.get(location.parentId)
+        const child = nodeMap.get(location.id)
+        if (parent && child) {
+          parent.children.push(child)
+        }
+      }
+    })
+
+    assets.forEach((asset) => {
+      const parentId = asset.parentId || asset.locationId
+      if (parentId) {
+        const parent = nodeMap.get(parentId)
+        const child = nodeMap.get(asset.id)
+        if (parent && child) {
+          parent.children.push(child)
+        }
+      }
+    })
+
+    const roots: Node[] = []
+    nodeMap.forEach((node) => {
+      if (node.type === 'location' && !node.parentId) {
+        roots.push(node)
+      } else if (
+        node.type !== 'location' &&
+        !node.parentId &&
+        !node.locationId
+      ) {
+        roots.push(node)
+      }
+    })
+
+    const filterNodes = (nodes: Node[]): Node[] => {
+      return nodes.reduce((acc, node) => {
+        const filteredChildren = filterNodes(node.children)
+        if (isMatch(node) || filteredChildren.length > 0) {
+          acc.push({
+            ...node,
+            children:
+              filteredChildren.length > 0 ? filteredChildren : node.children,
+          })
+        }
+        return acc
+      }, [] as Node[])
     }
 
-    const rootLocations = locations
-      .filter((location) => !location.parentId)
-      .map((location) => ({
-        ...location,
-        type: 'location' as const,
-        children: findChildren(location.id),
-      }))
+    if (scope === 'none' && searchTerm === '') {
+      return roots
+    }
 
-    const rootAssets = assets
-      .filter((asset) => !asset.locationId && !asset.parentId)
-      .map((asset) => ({
-        ...asset,
-        type: asset.sensorType ? ('component' as const) : ('asset' as const),
-        children: findChildren(asset.id),
-      }))
-
-    return [...rootLocations, ...rootAssets]
+    return filterNodes(roots)
   }
 
-  function filterNodes(nodes: Node[]) {
-    return nodes.reduce((acc, node) => {
-      const filteredChildren = filterNodes(node.children)
-      if (isMatch(node) || filteredChildren.length > 0) {
-        acc.push({
-          ...node,
-          children:
-            filteredChildren.length > 0 ? filteredChildren : node.children,
-        })
-      }
-      return acc
-    }, [] as Node[])
-  }
-
-  const treeData = buildTree(locations, assets)
-
-  if (scope === 'none' && searchTerm === '') {
-    return treeData
-  }
-
-  return filterNodes(treeData)
+  return buildTreeWithFilter()
 }
