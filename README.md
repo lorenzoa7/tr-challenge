@@ -8,8 +8,7 @@
   
 </div>
 
-![Tr Challenge Demo](public/github/demo_tr_challenge.mp4)
-
+https://github.com/lorenzoa7/tr-challenge/assets/72362614/55a9b6ee-dc7c-4cd6-93b1-35276f83a4c3
 
 ## 📑 About
 <p>An application that reads data from an API, transforms it into a binary tree structure, and displays it on the screen in a tree visualization format.
