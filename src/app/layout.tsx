@@ -1,4 +1,3 @@
-import QueryProvider from '@/components/query-provider'
 import { inter } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
@@ -23,7 +22,7 @@ export default function RootLayout({
           inter.variable,
         )}
       >
-        <QueryProvider>{children}</QueryProvider>
+        {children}
       </body>
     </html>
   )

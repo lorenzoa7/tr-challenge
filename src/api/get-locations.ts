@@ -1,4 +1,4 @@
-import { api } from '@/lib/axios'
+import { apiBaseUrl, fetchRevalidationInterval } from '@/config/site'
 
 export type GetLocationsRequest = {
   companyId: string
@@ -11,9 +11,12 @@ export type GetLocationsResponse = {
 }[]
 
 export async function getLocations({ companyId }: GetLocationsRequest) {
-  const response = await api.get<GetLocationsResponse>(
-    `/companies/${companyId}/locations`,
+  const response = await fetch(
+    `${apiBaseUrl}/companies/${companyId}/locations`,
+    {
+      next: { revalidate: fetchRevalidationInterval },
+    },
   )
 
-  return response.data
+  return response.json() as Promise<GetLocationsResponse>
 }

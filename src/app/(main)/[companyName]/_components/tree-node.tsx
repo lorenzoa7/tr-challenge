@@ -1,3 +1,5 @@
+'use client'
+
 import { Node } from '@/functions/build-tree'
 import { useComponentStore } from '@/store/use-component-store'
 import { AnimatePresence, motion } from 'framer-motion'

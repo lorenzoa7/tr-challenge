@@ -1,3 +1,6 @@
+'use client'
+
+import { createUrl } from '@/functions/create-url'
 import { objectEntries } from '@/functions/object-entries'
 import { useClickOutside } from '@/hooks/use-click-outside'
 import {
@@ -8,18 +11,18 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CheckIcon, ChevronDownIcon, SearchIcon } from 'lucide-react'
-import { useState } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-type Props = {
-  onSubmit: (data: FilterSchema) => void
-}
-
-export function FilterForm({ onSubmit }: Props) {
+export function FilterForm() {
   const [isOpen, setIsOpen] = useState(false)
   const ref = useClickOutside(() => {
     setIsOpen(false)
   })
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
 
   const { register, handleSubmit, setValue, watch } = useForm<FilterSchema>({
     resolver: zodResolver(filterSchema),
@@ -35,6 +38,32 @@ export function FilterForm({ onSubmit }: Props) {
     setValue('scope', scope)
     setIsOpen(false)
   }
+
+  function onSubmit(data: FilterSchema) {
+    const { searchTerm, scope } = data
+
+    const urlSearchParams = new URLSearchParams(String(searchParams))
+
+    urlSearchParams.set('search', searchTerm)
+    urlSearchParams.set('scope', scope)
+
+    const url = createUrl(pathname, urlSearchParams)
+    router.replace(url, { scroll: false })
+  }
+
+  useEffect(() => {
+    const searchTerm = searchParams.get('search') ?? ''
+    const scope = searchParams.get('scope') ?? 'none'
+
+    const filterResult = filterSchema.safeParse({ searchTerm, scope })
+
+    if (filterResult.success) {
+      const { data: filter } = filterResult
+
+      setValue('searchTerm', filter.searchTerm)
+      setValue('scope', filter.scope)
+    }
+  }, [searchParams, setValue])
 
   return (
     <form className="flex items-center gap-2" onSubmit={handleSubmit(onSubmit)}>

@@ -1,4 +1,4 @@
-import { api } from '@/lib/axios'
+import { apiBaseUrl, fetchRevalidationInterval } from '@/config/site'
 
 export type GetAssetsRequest = {
   companyId: string
@@ -16,9 +16,9 @@ export type GetAssetsResponse = {
 }[]
 
 export async function getAssets({ companyId }: GetAssetsRequest) {
-  const response = await api.get<GetAssetsResponse>(
-    `/companies/${companyId}/assets`,
-  )
+  const response = await fetch(`${apiBaseUrl}/companies/${companyId}/assets`, {
+    next: { revalidate: fetchRevalidationInterval },
+  })
 
-  return response.data
+  return response.json() as Promise<GetAssetsResponse>
 }
